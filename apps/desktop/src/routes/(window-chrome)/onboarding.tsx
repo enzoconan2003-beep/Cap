@@ -738,14 +738,16 @@ function ModeDetailStep(props: {
 							<props.mode.icon class="size-5 invert dark:invert-0" />
 						</div>
 						<div>
-							<h3 class="text-lg font-bold text-gray-12">{props.mode.title}</h3>
-							<p class="text-[11px] font-medium text-gray-9">
+							<h3 class="text-xl font-bold text-gray-12 tracking-[-0.02em] leading-tight">
+								{props.mode.title}
+							</h3>
+							<p class="text-[11px] font-medium text-[var(--reel-accent)] tracking-tight">
 								{props.mode.tagline}
 							</p>
 						</div>
 					</div>
 
-					<p class="text-[13px] text-gray-10 leading-relaxed">
+					<p class="text-[13px] text-gray-10 leading-relaxed tracking-tight">
 						{props.mode.description}
 					</p>
 
@@ -760,10 +762,12 @@ function ModeDetailStep(props: {
 										transform: visible() ? "translateX(0)" : "translateX(-8px)",
 									}}
 								>
-									<div class="flex items-center justify-center size-5 rounded-full shrink-0 bg-blue-9">
+									<div class="flex items-center justify-center size-5 rounded-full shrink-0 bg-[var(--reel-accent)]">
 										<IconLucideCheck class="size-2.5 text-white" />
 									</div>
-									<span class="text-xs text-gray-11">{feature}</span>
+									<span class="text-xs text-gray-11 tracking-tight">
+										{feature}
+									</span>
 								</div>
 							)}
 						</For>
