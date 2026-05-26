@@ -21,13 +21,11 @@ import {
 	createEffect,
 	createMemo,
 	createSignal,
-	ErrorBoundary,
 	For,
 	on,
 	onCleanup,
 	onMount,
 	Show,
-	Suspense,
 } from "solid-js";
 import { createStore, produce, reconcile } from "solid-js/store";
 import { Transition } from "solid-transition-group";
@@ -55,7 +53,6 @@ import {
 import {
 	createCameraMutation,
 	createCurrentRecordingQuery,
-	createLicenseQuery,
 	getPermissions,
 	listDisplaysWithThumbnails,
 	listRecordings,
@@ -2326,8 +2323,6 @@ function Page() {
 		}
 	});
 
-	const license = createLicenseQuery();
-
 	const signIn = createSignInMutation();
 	const stopRecording = createMutation(() => ({
 		mutationFn: async () => {
@@ -2649,30 +2644,6 @@ function Page() {
 						<span class="text-(--text-primary) text-[15px] font-semibold tracking-tight px-1">
 							Reel
 						</span>
-						<ErrorBoundary fallback={null}>
-							<Suspense>
-								<Show
-									when={license.data?.type !== "pro"}
-									fallback={
-										<span class="text-[0.6rem] ml-2 rounded-lg border border-gray-5 px-1 py-0.5 bg-(--blue-400) text-gray-1 dark:text-gray-12">
-											{license.data?.type === "commercial"
-												? "Commercial"
-												: "Pro"}
-										</span>
-									}
-								>
-									<button
-										type="button"
-										onClick={() => {
-											void commands.showWindow("Upgrade");
-										}}
-										class="text-[0.6rem] ml-2 rounded-lg border border-gray-5 px-1 py-0.5 bg-gray-3 hover:bg-gray-5"
-									>
-										Personal
-									</button>
-								</Show>
-							</Suspense>
-						</ErrorBoundary>
 					</div>
 					<Mode
 						onInfoClick={() => {
