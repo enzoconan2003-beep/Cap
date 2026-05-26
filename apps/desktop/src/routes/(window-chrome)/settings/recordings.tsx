@@ -50,11 +50,6 @@ const Tabs = [
 		label: "Show all",
 	},
 	{
-		id: "instant",
-		icon: <IconCapInstant class="invert size-3 dark:invert-0" />,
-		label: "Instant",
-	},
-	{
 		id: "studio",
 		icon: <IconCapFilmCut class="invert size-3 dark:invert-0" />,
 		label: "Studio",
