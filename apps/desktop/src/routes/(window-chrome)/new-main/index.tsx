@@ -76,8 +76,6 @@ import {
 	type ScreenCaptureTarget,
 	type UploadProgress,
 } from "~/utils/tauri";
-import IconCapLogoFull from "~icons/cap/logo-full";
-import IconCapLogoFullDark from "~icons/cap/logo-full-dark";
 import IconLucideAppWindowMac from "~icons/lucide/app-window-mac";
 import IconLucideArrowLeft from "~icons/lucide/arrow-left";
 import IconLucideBug from "~icons/lucide/bug";
@@ -1578,8 +1576,8 @@ function createUpdateCheck() {
 		let shouldUpdate: boolean | undefined;
 		try {
 			shouldUpdate = await dialog.confirm(
-				`Version ${update.version} of Cap is available, would you like to install it?`,
-				{ title: "Update Cap", okLabel: "Update", cancelLabel: "Ignore" },
+				`Version ${update.version} of Reel is available, would you like to install it?`,
+				{ title: "Update Reel", okLabel: "Update", cancelLabel: "Ignore" },
 			);
 		} catch (e) {
 			console.error("Failed to show update dialog:", e);
@@ -2646,8 +2644,12 @@ function Page() {
 			<Show when={!activeMenu()}>
 				<div class="flex items-center justify-between mt-[16px] mb-[6px]">
 					<div class="flex items-center space-x-1">
-						<span class="text-(--text-primary) text-[15px] font-semibold tracking-tight px-1">
-							Reel
+						<span class="flex items-baseline gap-[3px] text-(--text-primary) text-[15px] font-semibold tracking-[-0.02em] px-1">
+							<span>Reel</span>
+							<span
+								aria-hidden="true"
+								class="inline-block size-[5px] rounded-full bg-(--blue-400) translate-y-[-1px]"
+							/>
 						</span>
 						<ErrorBoundary fallback={null}>
 							<Suspense>
