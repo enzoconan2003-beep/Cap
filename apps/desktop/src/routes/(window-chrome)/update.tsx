@@ -95,7 +95,7 @@ export default function () {
 						<div>
 							<Switch
 								fallback={
-									<IconCapLogo class="animate-spin size-4 text-(--text-primary)" />
+									<IconLucideLoader2 class="animate-spin size-4 text-(--text-primary)" />
 								}
 							>
 								<Match when={updateStatus()?.type === "done"}>

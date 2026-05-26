@@ -1,5 +1,6 @@
 import { type as ostype } from "@tauri-apps/plugin-os";
 import { cx } from "cva";
+import { ReelWordmark } from "~/components/Loader";
 import CaptionControlsWindows11 from "~/components/titlebar/controls/CaptionControlsWindows11";
 
 const DEFAULT_TIMELINE_HEIGHT = 260;
@@ -89,9 +90,7 @@ function VideoPreviewSkeleton() {
 		<div class="relative flex-1 flex justify-center items-center">
 			<div class="relative w-full h-full flex justify-center items-center p-4">
 				<div class="relative bg-gray-3 dark:bg-gray-4 rounded-lg w-full max-w-[85%] aspect-video flex items-center justify-center">
-					<div class="animate-spin grayscale opacity-60">
-						<IconCapLogo class="size-16 text-gray-6" />
-					</div>
+					<ReelWordmark class="text-2xl animate-pulse opacity-70" />
 				</div>
 			</div>
 		</div>

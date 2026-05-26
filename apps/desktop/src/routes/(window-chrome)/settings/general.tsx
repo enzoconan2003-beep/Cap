@@ -846,7 +846,10 @@ function DefaultProjectNameCard(props: {
 					/>
 
 					<div class="flex gap-2 items-center px-3 py-2 rounded-lg border border-dashed bg-gray-3 border-gray-5">
-						<IconCapLogo class="pointer-events-none size-4 shrink-0" />
+						<span
+							aria-hidden="true"
+							class="inline-block size-2 rounded-full shrink-0 bg-[var(--reel-accent)]"
+						/>
 						<p class="text-xs text-gray-12 whitespace-pre-wrap">{preview()}</p>
 					</div>
 
