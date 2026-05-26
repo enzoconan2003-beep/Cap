@@ -107,28 +107,27 @@ const setupPermissions: readonly SetupPermission[] = [
 		name: "Screen Recording",
 		key: "screenRecording",
 		description:
-			"Click Grant to allow when macOS asks, or pick Reel in System Settings if needed. Restart the app after allowing screen recording.",
+			"So Reel can actually see what you're recording. Grant, then restart the app.",
 		requiresManualGrant: false,
 	},
 	{
 		name: "Accessibility",
 		key: "accessibility",
 		description:
-			"During recording, Reel collects mouse activity locally to generate automatic zoom in segments.",
+			"Tracks cursor movement locally to auto-place zoom keyframes. Nothing leaves your machine.",
 		requiresManualGrant: false,
 	},
 	{
 		name: "Microphone",
 		key: "microphone",
-		description: "This permission is required to record audio in your Reels.",
+		description: "Capture voiceover and system audio while you record.",
 		requiresManualGrant: false,
 		optional: true,
 	},
 	{
 		name: "Camera",
 		key: "camera",
-		description:
-			"This permission is required to record your camera in your Reels.",
+		description: "Add a camera overlay on top of your screen recording.",
 		requiresManualGrant: false,
 		optional: true,
 	},
@@ -1663,14 +1662,14 @@ function PermissionsStep(props: {
 					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
 				)}
 			>
-				<div class="flex items-center justify-center size-12 rounded-2xl bg-white dark:bg-gray-3 border border-gray-4">
-					<IconLucideShield class="size-5 text-gray-11" />
+				<div class="flex items-center justify-center size-12 rounded-2xl bg-white dark:bg-gray-3 border border-gray-4 shadow-[0_0_24px_rgba(139,109,255,0.18)]">
+					<IconLucideShield class="size-5 text-[var(--reel-accent)]" />
 				</div>
-				<h2 class="text-2xl font-bold text-gray-12 tracking-tight">
-					Permissions Required
+				<h2 class="text-[26px] font-bold text-gray-12 tracking-[-0.02em] leading-tight">
+					Give Reel the keys
 				</h2>
-				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Reel needs a few permissions to record your screen and capture audio.
+				<p class="text-[14px] text-gray-10 leading-relaxed tracking-tight">
+					Four permissions, two are optional. Everything stays local.
 				</p>
 			</div>
 
