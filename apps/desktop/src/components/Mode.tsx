@@ -88,7 +88,7 @@ const Mode = (props: ModeProps) => {
 							class={cx(
 								"relative flex justify-center items-center rounded-full transition-all duration-200 size-7 focus:outline-none",
 								isSelected()
-									? "ring-2 ring-offset-1 ring-offset-gray-1 bg-gray-7 hover:bg-gray-7 ring-blue-500"
+									? "ring-2 ring-offset-1 ring-offset-gray-1 bg-gray-7 hover:bg-gray-7 ring-[var(--reel-accent)]"
 									: "bg-gray-3 hover:bg-gray-7",
 							)}
 						>
