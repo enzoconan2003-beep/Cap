@@ -66,29 +66,29 @@ interface ModeDetail {
 const modes: ModeDetail[] = [
 	{
 		id: "studio",
-		title: "Studio Mode",
-		tagline: "Record, edit, export",
+		title: "Studio",
+		tagline: "Demos that sell",
 		description:
-			"Record in full quality locally, then use the built-in editor to add zoom keyframes, backgrounds, and a camera overlay.",
+			"Record in full quality, then use the editor to drop in zoom keyframes, a camera overlay, and export a clean MP4.",
 		icon: IconCapFilmCut,
 		features: [
-			"Full quality local recording",
+			"Lossless local capture",
 			"Zoom keyframes for product demos",
-			"Camera overlay with rounded frame",
-			"Export to MP4",
+			"Camera overlay, rounded frame",
+			"One-click MP4 export",
 		],
 	},
 	{
 		id: "screenshot",
-		title: "Screenshot Mode",
-		tagline: "Capture & beautify instantly",
+		title: "Screenshot",
+		tagline: "Capture and ship",
 		description:
-			"Take screenshots with a single hotkey, add annotations and beautiful backgrounds.",
+			"Hotkey, frame, drop a background, copy to clipboard. Done before the thought leaves your head.",
 		icon: IconCapScreenshot,
 		features: [
-			"Instant hotkey capture",
-			"Annotation & drawing tools",
-			"Beautiful backgrounds",
+			"Hotkey-driven capture",
+			"Annotate and draw",
+			"Background presets",
 			"Copy or save locally",
 		],
 	},
@@ -666,20 +666,20 @@ function ModesOverviewStep(props: { active: boolean }) {
 					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
 				)}
 			>
-				<h2 class="text-2xl font-bold text-gray-12 tracking-tight">
-					Two modes, one focus
+				<h2 class="text-[26px] font-bold text-gray-12 tracking-[-0.02em] leading-tight">
+					Two modes. Pick a lane.
 				</h2>
-				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Record polished product demos in Studio, or grab quick screenshots —
-					whichever you need.
+				<p class="text-[14px] text-gray-10 leading-relaxed tracking-tight">
+					Studio for polished demos with zoom keyframes and MP4 export.
+					Screenshot for everything else.
 				</p>
 			</div>
 
-			<div class="flex gap-4 w-full max-w-[420px]">
+			<div class="flex gap-4 w-full max-w-[440px]">
 				<For each={modes}>
 					{(mode, index) => (
 						<div
-							class="flex-1 flex flex-col items-center gap-3 p-5 rounded-2xl border border-gray-4 bg-white dark:bg-gray-2 transition-all duration-500 ease-out shadow-xs"
+							class="group flex-1 flex flex-col items-center gap-3 p-5 rounded-2xl border border-gray-4 bg-white dark:bg-gray-2 transition-all duration-500 ease-out shadow-xs hover:border-[var(--reel-accent)]/40 hover:shadow-[0_8px_24px_rgba(139,109,255,0.12)]"
 							style={{
 								"transition-delay": `${200 + index() * 100}ms`,
 								opacity: visible() ? 1 : 0,
@@ -688,14 +688,14 @@ function ModesOverviewStep(props: { active: boolean }) {
 									: "translateY(16px) scale(0.95)",
 							}}
 						>
-							<div class="flex items-center justify-center size-12 rounded-2xl border border-gray-5 bg-white dark:bg-gray-3">
+							<div class="flex items-center justify-center size-12 rounded-2xl border border-gray-5 bg-white dark:bg-gray-3 group-hover:border-[var(--reel-accent)]/30 transition-colors">
 								<mode.icon class="size-5 invert dark:invert-0" />
 							</div>
 							<div class="text-center">
-								<div class="text-sm font-semibold text-gray-12">
+								<div class="text-[15px] font-semibold text-gray-12 tracking-tight">
 									{mode.title}
 								</div>
-								<div class="text-[11px] text-gray-9 mt-1 leading-snug">
+								<div class="text-[11px] text-gray-9 mt-1 leading-snug tracking-tight">
 									{mode.tagline}
 								</div>
 							</div>
