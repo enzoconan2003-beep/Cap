@@ -97,7 +97,7 @@ const ModeSelect = (props: { onClose?: () => void; standalone?: boolean }) => {
 				</div>
 			</Show>
 
-			<div class="grid grid-cols-3 gap-4">
+			<div class="grid grid-cols-2 gap-4">
 				{modeOptions.map((option) => (
 					<ModeOption
 						mode={option.mode}

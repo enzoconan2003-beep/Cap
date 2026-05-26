@@ -4,7 +4,6 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { ask } from "@tauri-apps/plugin-dialog";
 import { type as ostype } from "@tauri-apps/plugin-os";
 import { relaunch } from "@tauri-apps/plugin-process";
-import * as shell from "@tauri-apps/plugin-shell";
 import { cx } from "cva";
 import {
 	createEffect,
@@ -31,7 +30,6 @@ import IconCapCaretDown from "~icons/cap/caret-down";
 import IconCapCursorMacos from "~icons/cap/cursor-macos";
 import IconCapCursorWindows from "~icons/cap/cursor-windows";
 import IconCapFilmCut from "~icons/cap/film-cut";
-import IconCapInstant from "~icons/cap/instant";
 import IconCapMicrophone from "~icons/cap/microphone";
 import IconCapMoreVertical from "~icons/cap/more-vertical";
 import IconCapPauseCircle from "~icons/cap/pause-circle";
@@ -43,9 +41,7 @@ import IconCapTrash from "~icons/cap/trash";
 import IconLucideArrowLeft from "~icons/lucide/arrow-left";
 import IconLucideArrowRight from "~icons/lucide/arrow-right";
 import IconLucideCheck from "~icons/lucide/check";
-import IconLucideChevronDown from "~icons/lucide/chevron-down";
 import IconLucideCopy from "~icons/lucide/copy";
-import IconLucideExternalLink from "~icons/lucide/external-link";
 import IconLucideSave from "~icons/lucide/save";
 import IconLucideShield from "~icons/lucide/shield";
 import IconLucideVolume2 from "~icons/lucide/volume-2";
@@ -56,44 +52,30 @@ import cloud3 from "../../assets/illustrations/cloud-3.png";
 import startupAudio from "../../assets/tears-and-fireflies-adi-goldstein.mp3";
 import { WindowChromeHeader } from "./Context";
 
-type ModeId = "instant" | "studio" | "screenshot";
+type ModeId = "studio" | "screenshot";
 
 interface ModeDetail {
 	id: ModeId;
 	title: string;
 	tagline: string;
 	description: string;
-	icon: typeof IconCapInstant;
+	icon: typeof IconCapFilmCut;
 	features: string[];
 }
 
 const modes: ModeDetail[] = [
 	{
-		id: "instant",
-		title: "Instant Mode",
-		tagline: "Record & share in seconds",
-		description:
-			"Your recording uploads as you capture. Stop recording and instantly get a shareable link — no waiting.",
-		icon: IconCapInstant,
-		features: [
-			"Instant shareable link",
-			"Background uploading",
-			"AI transcription & summary",
-			"Browser-based playback",
-		],
-	},
-	{
 		id: "studio",
 		title: "Studio Mode",
-		tagline: "Professional editing tools",
+		tagline: "Record, edit, export",
 		description:
-			"Record in full quality locally, then use the built-in editor to add backgrounds, padding, cursor effects, and more.",
+			"Record in full quality locally, then use the built-in editor to add zoom keyframes, backgrounds, and a camera overlay.",
 		icon: IconCapFilmCut,
 		features: [
 			"Full quality local recording",
-			"Built-in editor & effects",
-			"Custom backgrounds & padding",
-			"Export or share when ready",
+			"Zoom keyframes for product demos",
+			"Camera overlay with rounded frame",
+			"Export to MP4",
 		],
 	},
 	{
@@ -101,13 +83,13 @@ const modes: ModeDetail[] = [
 		title: "Screenshot Mode",
 		tagline: "Capture & beautify instantly",
 		description:
-			"Take screenshots with a single hotkey, add annotations and beautiful backgrounds, then share or copy instantly.",
+			"Take screenshots with a single hotkey, add annotations and beautiful backgrounds.",
 		icon: IconCapScreenshot,
 		features: [
 			"Instant hotkey capture",
 			"Annotation & drawing tools",
 			"Beautiful backgrounds",
-			"Copy, save, or share",
+			"Copy or save locally",
 		],
 	},
 ];
@@ -345,7 +327,7 @@ export default function OnboardingPage() {
 
 	const totalSteps = createMemo(() => {
 		if (permissionsOnly()) return 1;
-		return 8;
+		return 5;
 	});
 
 	createEffect(() => {
@@ -510,27 +492,16 @@ export default function OnboardingPage() {
 							</StepPanel>
 							<StepPanel active={step() === 2} index={2} currentStep={step()}>
 								<ModeDetailStep mode={modes[0]} active={step() === 2}>
-									<InstantMockup active={step() === 2} />
+									<StudioMockup active={step() === 2} />
 								</ModeDetailStep>
 							</StepPanel>
 							<StepPanel active={step() === 3} index={3} currentStep={step()}>
 								<ModeDetailStep mode={modes[1]} active={step() === 3}>
-									<StudioMockup active={step() === 3} />
+									<ScreenshotMockup active={step() === 3} />
 								</ModeDetailStep>
 							</StepPanel>
 							<StepPanel active={step() === 4} index={4} currentStep={step()}>
-								<ModeDetailStep mode={modes[2]} active={step() === 4}>
-									<ScreenshotMockup active={step() === 4} />
-								</ModeDetailStep>
-							</StepPanel>
-							<StepPanel active={step() === 5} index={5} currentStep={step()}>
-								<ToggleStep active={step() === 5} />
-							</StepPanel>
-							<StepPanel active={step() === 6} index={6} currentStep={step()}>
-								<ShortcutsStep active={step() === 6} />
-							</StepPanel>
-							<StepPanel active={step() === 7} index={7} currentStep={step()}>
-								<FaqStep active={step() === 7} />
+								<ShortcutsStep active={step() === 4} />
 							</StepPanel>
 						</Show>
 					</div>
@@ -697,15 +668,15 @@ function ModesOverviewStep(props: { active: boolean }) {
 				)}
 			>
 				<h2 class="text-2xl font-bold text-gray-12 tracking-tight">
-					One app, every workflow
+					Two modes, one focus
 				</h2>
 				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Whether you need speed, studio quality, or a quick screenshot — Reel
-					has a mode for it.
+					Record polished product demos in Studio, or grab quick screenshots —
+					whichever you need.
 				</p>
 			</div>
 
-			<div class="flex gap-4 w-full max-w-[540px]">
+			<div class="flex gap-4 w-full max-w-[420px]">
 				<For each={modes}>
 					{(mode, index) => (
 						<div
@@ -810,140 +781,6 @@ function ModeDetailStep(props: {
 	);
 }
 
-function ToggleStep(props: { active: boolean }) {
-	const [visible, setVisible] = createSignal(false);
-	const [activeMode, setActiveMode] = createSignal(0);
-	const [userClicked, setUserClicked] = createSignal(false);
-
-	const CIRCLE = 80;
-	const GAP = 24;
-	const PAD = 16;
-
-	createEffect(() => {
-		if (props.active) {
-			setVisible(false);
-			setActiveMode(0);
-			setUserClicked(false);
-			const t = setTimeout(() => setVisible(true), 100);
-			const interval = setInterval(() => {
-				if (!userClicked()) setActiveMode((prev) => (prev + 1) % 3);
-			}, 2500);
-			onCleanup(() => {
-				clearTimeout(t);
-				clearInterval(interval);
-			});
-		} else {
-			setVisible(false);
-		}
-	});
-
-	const ringLeft = () => PAD + activeMode() * (CIRCLE + GAP);
-
-	const handleModeClick = (index: number) => {
-		setUserClicked(true);
-		setActiveMode(index);
-		commands.setRecordingMode(modes[index].id);
-	};
-
-	return (
-		<div class="flex flex-col items-center justify-center min-h-full px-12 gap-8">
-			<div
-				class={cx(
-					"flex flex-col items-center gap-3 text-center max-w-[420px] transition-all duration-500",
-					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
-				)}
-			>
-				<h2 class="text-2xl font-bold text-gray-12 tracking-tight">
-					Switch modes anytime
-				</h2>
-				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Toggle between modes with a single click from the main Reel window.
-				</p>
-			</div>
-
-			<div
-				class={cx(
-					"flex flex-col items-center gap-5 transition-all duration-700 delay-200",
-					visible()
-						? "opacity-100 translate-y-0 scale-100"
-						: "opacity-0 translate-y-6 scale-95",
-				)}
-			>
-				<div class="relative">
-					<div class="absolute inset-0 rounded-full border border-gray-5 bg-white dark:bg-gray-3" />
-					<div
-						class="absolute rounded-full pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
-						style={{
-							width: `${CIRCLE}px`,
-							height: `${CIRCLE}px`,
-							left: `${ringLeft()}px`,
-							top: `${PAD}px`,
-							"box-shadow": "0 0 0 3px var(--gray-1), 0 0 0 5px var(--blue-9)",
-						}}
-					/>
-					<div
-						class="relative flex"
-						style={{ gap: `${GAP}px`, padding: `${PAD}px` }}
-					>
-						<For each={modes}>
-							{(mode, index) => (
-								<div
-									class={cx(
-										"rounded-full flex items-center justify-center transition-colors duration-300 cursor-pointer hover:brightness-95 border",
-										activeMode() === index()
-											? "bg-gray-7 border-transparent dark:border-gray-6"
-											: "bg-white dark:bg-gray-4 border-gray-5 dark:border-gray-6",
-									)}
-									style={{
-										width: `${CIRCLE}px`,
-										height: `${CIRCLE}px`,
-									}}
-									onClick={() => handleModeClick(index())}
-								>
-									<mode.icon
-										class={cx(
-											"size-8 invert dark:invert-0 transition-all duration-300",
-											activeMode() === index()
-												? "scale-110 opacity-100"
-												: "scale-100 opacity-50",
-										)}
-									/>
-								</div>
-							)}
-						</For>
-					</div>
-				</div>
-
-				<div
-					class="flex"
-					style={{
-						gap: `${GAP}px`,
-						"padding-left": `${PAD}px`,
-						"padding-right": `${PAD}px`,
-					}}
-				>
-					<For each={modes}>
-						{(mode, index) => (
-							<span
-								class={cx(
-									"text-sm font-medium text-center transition-all duration-300 cursor-pointer",
-									activeMode() === index()
-										? "text-gray-12"
-										: "text-gray-9 opacity-50",
-								)}
-								style={{ width: `${CIRCLE}px` }}
-								onClick={() => handleModeClick(index())}
-							>
-								{mode.title}
-							</span>
-						)}
-					</For>
-				</div>
-			</div>
-		</div>
-	);
-}
-
 function ShortcutsStep(props: { active: boolean }) {
 	const [visible, setVisible] = createSignal(false);
 
@@ -963,16 +800,12 @@ function ShortcutsStep(props: { active: boolean }) {
 			desc: "Global hotkeys for recording, screenshots, and switching modes",
 		},
 		{
-			title: "Custom S3 Storage",
-			desc: "Connect your own S3-compatible bucket for full control over your recordings",
-		},
-		{
-			title: "Custom Domain",
-			desc: "Use your own domain for shareable links instead of cap.link",
-		},
-		{
 			title: "Recording Preferences",
 			desc: "FPS, quality, countdown timer, cursor effects, and more",
+		},
+		{
+			title: "Editor Defaults",
+			desc: "Set default backgrounds, padding, and shadow for new projects",
 		},
 	];
 
@@ -991,8 +824,7 @@ function ShortcutsStep(props: { active: boolean }) {
 					Make Reel yours
 				</h2>
 				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Customize everything from keyboard shortcuts to storage. Reel adapts to
-					your workflow.
+					Customize everything from keyboard shortcuts to editor defaults.
 				</p>
 			</div>
 
@@ -1035,114 +867,6 @@ function ShortcutsStep(props: { active: boolean }) {
 	);
 }
 
-function FaqStep(props: { active: boolean }) {
-	const [visible, setVisible] = createSignal(false);
-
-	createEffect(() => {
-		if (props.active) {
-			setVisible(false);
-			const t = setTimeout(() => setVisible(true), 100);
-			onCleanup(() => clearTimeout(t));
-		} else {
-			setVisible(false);
-		}
-	});
-
-	return (
-		<div class="flex flex-col items-center justify-center min-h-full px-12 py-6 gap-6">
-			<div
-				class={cx(
-					"flex flex-col items-center gap-2 text-center transition-all duration-500",
-					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
-				)}
-			>
-				<h2 class="text-2xl font-bold text-gray-12 tracking-tight">
-					Frequently Asked Questions
-				</h2>
-				<p class="text-[14px] text-gray-10">
-					Everything you need to know to get started.
-				</p>
-			</div>
-
-			<div
-				class={cx(
-					"w-full max-w-[480px] rounded-xl border border-gray-4 bg-white dark:bg-gray-2 overflow-hidden transition-all duration-500 delay-100 shadow-xs",
-					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
-				)}
-			>
-				<FaqItem question="Is Reel free to use?">
-					<p class="text-[13px] text-gray-10 leading-relaxed">
-						Reel is free and open source for personal use.
-					</p>
-				</FaqItem>
-				<FaqItem question="Where are my recordings stored?">
-					<p class="text-[13px] text-gray-10 leading-relaxed">
-						All recordings are stored locally on your computer. You can manage
-						storage in Settings.
-					</p>
-				</FaqItem>
-				<FaqItem question="Can I change my shortcuts later?">
-					<p class="text-[13px] text-gray-10 leading-relaxed">
-						Head to Settings → Shortcuts at any time to customize all your
-						keyboard shortcuts.
-					</p>
-				</FaqItem>
-				<FaqItem question="How does sharing work?">
-					<p class="text-[13px] text-gray-10 leading-relaxed">
-						Studio mode records locally in full quality. Export your edited
-						video and share via the file you save locally.
-					</p>
-				</FaqItem>
-			</div>
-
-			<button
-				type="button"
-				onClick={() => shell.open("https://cap.so/pricing")}
-				class={cx(
-					"flex items-center gap-1.5 text-[13px] text-blue-10 hover:text-blue-11 transition-all duration-500 delay-200",
-					visible() ? "opacity-100" : "opacity-0",
-				)}
-			>
-				View pricing plans
-				<IconLucideExternalLink class="size-3" />
-			</button>
-		</div>
-	);
-}
-
-function FaqItem(props: { question: string; children: JSX.Element }) {
-	const [open, setOpen] = createSignal(false);
-
-	return (
-		<div class="border-b border-gray-4 last:border-b-0">
-			<button
-				type="button"
-				onClick={() => setOpen((p) => !p)}
-				class="flex items-center justify-between w-full px-4 py-3 text-left hover:bg-gray-2 dark:hover:bg-gray-3 transition-colors duration-200"
-			>
-				<span class="text-[13px] font-medium text-gray-12">
-					{props.question}
-				</span>
-				<IconLucideChevronDown
-					class={cx(
-						"size-3.5 text-gray-9 shrink-0 transition-transform duration-300",
-						open() && "rotate-180",
-					)}
-				/>
-			</button>
-			<div
-				class="overflow-hidden transition-all duration-300 ease-out"
-				style={{
-					"max-height": open() ? "200px" : "0px",
-					opacity: open() ? 1 : 0,
-				}}
-			>
-				<div class="px-4 pb-3">{props.children}</div>
-			</div>
-		</div>
-	);
-}
-
 function MockupStepBar(props: { steps: string[]; activeStep: number }) {
 	return (
 		<div class="flex items-center justify-center gap-2 pb-3">
@@ -1172,10 +896,7 @@ function MockupStepBar(props: { steps: string[]; activeStep: number }) {
 	);
 }
 
-function StartRecordingClickMock(props: {
-	active: boolean;
-	mode: "instant" | "studio";
-}) {
+function StartRecordingClickMock(props: { active: boolean; mode: "studio" }) {
 	const [cursorStage, setCursorStage] = createSignal(0);
 
 	const cursorMoveMs = 1450;
@@ -1199,8 +920,7 @@ function StartRecordingClickMock(props: {
 		});
 	});
 
-	const modeLabel = () =>
-		props.mode === "studio" ? "Studio Mode" : "Instant Mode";
+	const modeLabel = () => "Studio Mode";
 
 	const cursorW = () => (ostype() === "windows" ? 24 : 22);
 	const cursorH = () => (ostype() === "windows" ? 34 : 32);
@@ -1215,12 +935,7 @@ function StartRecordingClickMock(props: {
 					)}
 				>
 					<div class="flex min-w-0 flex-1 items-center py-1 pl-4 pointer-events-none">
-						<Show
-							when={props.mode === "studio"}
-							fallback={<IconCapInstant class="size-4 shrink-0" />}
-						>
-							<IconCapFilmCut class="size-4 shrink-0" />
-						</Show>
+						<IconCapFilmCut class="size-4 shrink-0" />
 						<div class="mr-2 ml-3 flex min-w-0 flex-col">
 							<span class="text-[0.95rem] font-medium text-nowrap text-white">
 								Start Recording
@@ -1334,123 +1049,6 @@ function RecordingBar(props: {
 					aria-hidden="true"
 				>
 					<IconCapMoreVertical class="pointer-events-none size-5" />
-				</div>
-			</div>
-		</div>
-	);
-}
-
-function InstantMockup(props: { active: boolean }) {
-	const phase = createLoopingPhase(
-		() => props.active,
-		[300, 2350, 3350, 4350, 5350, 6350, 7350, 8350],
-		9550,
-	);
-
-	const activeStep = () => {
-		const p = phase();
-		if (p <= 5) return 0;
-		if (p <= 6) return 1;
-		return 2;
-	};
-
-	const recordingTime = () => {
-		const p = phase();
-		if (p >= 5) return "0:03";
-		if (p >= 4) return "0:02";
-		if (p >= 3) return "0:01";
-		if (p >= 2) return "0:00";
-		return "0:00";
-	};
-
-	return (
-		<div class="w-full h-full flex flex-col min-h-0 p-4">
-			<MockupStepBar
-				steps={["Record", "Stop", "Share link"]}
-				activeStep={activeStep()}
-			/>
-			<div class="relative flex-1 min-h-[200px] w-full max-w-[420px] mx-auto">
-				<div
-					class={cx(
-						"absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)]",
-						phase() >= 1 && phase() < 7
-							? "opacity-100"
-							: "pointer-events-none opacity-0",
-					)}
-				>
-					<div class="relative min-h-[52px] w-full max-w-[400px]">
-						<div
-							class={cx(
-								"flex w-full justify-center transition-all duration-720 ease-[cubic-bezier(0.34,1.3,0.64,1)]",
-								phase() === 1
-									? "relative z-2 translate-y-0 scale-100 opacity-100"
-									: "pointer-events-none absolute inset-0 z-1 flex items-center justify-center opacity-0 scale-[0.94] -translate-y-2",
-							)}
-						>
-							<StartRecordingClickMock active={phase() === 1} mode="instant" />
-						</div>
-						<div
-							class={cx(
-								"w-full transition-all duration-720 ease-[cubic-bezier(0.34,1.3,0.64,1)]",
-								phase() >= 2 && phase() < 7
-									? "relative z-2 translate-y-0 scale-100 opacity-100"
-									: "pointer-events-none absolute inset-0 z-1 flex items-center justify-center opacity-0 scale-[0.94] translate-y-3",
-							)}
-						>
-							<div class="w-full shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-								<RecordingBar time={recordingTime()} stopped={phase() >= 6} />
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-					class={cx(
-						"absolute inset-0 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
-						phase() >= 7
-							? "opacity-100 translate-y-0 scale-100"
-							: "opacity-0 translate-y-4 scale-[0.97] pointer-events-none",
-					)}
-				>
-					<div class="w-full max-w-[340px] rounded-xl overflow-hidden border border-gray-4 bg-white dark:bg-gray-1 shadow-lg">
-						<div class="flex flex-col items-center gap-3 px-4 py-4">
-							<div class="flex items-center gap-2">
-								<div class="size-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-									<IconLucideCheck class="size-3 text-green-600" />
-								</div>
-								<span class="text-[12px] font-medium text-gray-12">
-									Link ready to share!
-								</span>
-							</div>
-							<div class="flex items-center gap-2 w-full">
-								<div class="flex-1 flex items-center px-3 py-2 rounded-lg bg-white dark:bg-gray-3 border border-gray-4">
-									<span class="text-[11px] text-gray-11 font-mono">
-										cap.link/m4k92x
-									</span>
-								</div>
-								<div
-									class={cx(
-										"flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-medium transition-all duration-300 shrink-0",
-										phase() >= 8
-											? "bg-green-50 border-green-200 text-green-700 scale-95"
-											: "bg-white dark:bg-gray-3 border-gray-5 text-gray-11",
-									)}
-								>
-									<Show
-										when={phase() >= 8}
-										fallback={
-											<>
-												<IconLucideCopy class="size-3" stroke-width={2} />
-												Copy
-											</>
-										}
-									>
-										<IconLucideCheck class="size-3" />
-										Copied!
-									</Show>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
