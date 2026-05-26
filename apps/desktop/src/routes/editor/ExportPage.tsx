@@ -1669,7 +1669,7 @@ export function ExportPage() {
 																Upload Complete
 															</h1>
 															<p class="text-sm text-gray-11">
-																Your Cap has been uploaded successfully
+																Your Reel has been uploaded successfully
 															</p>
 														</div>
 													</div>

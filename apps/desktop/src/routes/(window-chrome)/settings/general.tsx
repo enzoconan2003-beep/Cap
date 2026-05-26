@@ -118,7 +118,7 @@ function AppearanceSection(props: {
 	return (
 		<Section
 			title="Appearance"
-			description="Match Cap to your system theme or pick a fixed look."
+			description="Match Reel to your system theme or pick a fixed look."
 		>
 			<SectionCard padded>
 				<div
@@ -423,18 +423,18 @@ function Inner(props: { initialStore: GeneralSettingsStore | null }) {
 				{ostype === "macos" && (
 					<Section
 						title="App"
-						description="Choose how Cap shows up on your system."
+						description="Choose how Reel shows up on your system."
 					>
 						<SectionRows>
 							<ToggleSettingItem
 								label="Always show dock icon"
-								description="Keep Cap in the dock even when no windows are open."
+								description="Keep Reel in the dock even when no windows are open."
 								value={!settings.hideDockIcon}
 								onChange={(v) => handleChange("hideDockIcon", !v)}
 							/>
 							<ToggleSettingItem
 								label="System notifications"
-								description="Show notifications for clipboard copies, saved files, and more. You may need to allow Cap in your system's notification settings."
+								description="Show notifications for clipboard copies, saved files, and more. You may need to allow Reel in your system's notification settings."
 								value={!!settings.enableNotifications}
 								onChange={async (value) => {
 									if (value) {
@@ -639,7 +639,7 @@ function TelemetryCard(props: {
 			<SectionRows>
 				<ToggleSettingItem
 					label="Share anonymous telemetry"
-					description="Cap uses anonymous telemetry to improve reliability and fix bugs. We never collect recording contents, window titles, file paths, or personal information."
+					description="Reel uses anonymous telemetry to improve reliability and fix bugs. We never collect recording contents, window titles, file paths, or personal information."
 					value={props.value}
 					onChange={props.onChange}
 				/>
@@ -1125,7 +1125,7 @@ function ExcludedWindowsCard(props: {
 			title="Excluded windows"
 			description={
 				props.isWindows
-					? "Hide windows from recordings. On Windows, only Cap-related windows can be excluded."
+					? "Hide windows from recordings. On Windows, only Reel-related windows can be excluded."
 					: "Hide windows from recordings."
 			}
 			right={

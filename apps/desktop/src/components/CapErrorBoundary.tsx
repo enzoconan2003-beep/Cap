@@ -10,7 +10,13 @@ export function CapErrorBoundary(props: ParentProps) {
 				console.error(e);
 				return (
 					<div class="w-full h-full flex flex-col justify-center items-center bg-gray-2 border-gray-3 max-h-screen overflow-hidden transition-[border-radius] duration-200 text-(--text-secondary) gap-y-4 max-sm:gap-y-2 px-8 text-center">
-						<IconCapLogo class="max-sm:size-16" />
+						<span class="flex items-baseline gap-[5px] text-(--text-primary) text-2xl font-semibold tracking-[-0.025em]">
+							<span>Reel</span>
+							<span
+								aria-hidden="true"
+								class="inline-block size-[7px] rounded-full bg-(--blue-400) translate-y-[-2px]"
+							/>
+						</span>
 						<h1 class="text-(--text-primary) text-3xl max-sm:text-xl font-bold">
 							An Error Occured
 						</h1>

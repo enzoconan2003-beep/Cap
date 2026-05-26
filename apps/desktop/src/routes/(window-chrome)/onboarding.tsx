@@ -125,20 +125,20 @@ const setupPermissions: readonly SetupPermission[] = [
 		name: "Screen Recording",
 		key: "screenRecording",
 		description:
-			"Click Grant to allow when macOS asks, or pick Cap in System Settings if needed. Restart the app after allowing screen recording.",
+			"Click Grant to allow when macOS asks, or pick Reel in System Settings if needed. Restart the app after allowing screen recording.",
 		requiresManualGrant: false,
 	},
 	{
 		name: "Accessibility",
 		key: "accessibility",
 		description:
-			"During recording, Cap collects mouse activity locally to generate automatic zoom in segments.",
+			"During recording, Reel collects mouse activity locally to generate automatic zoom in segments.",
 		requiresManualGrant: false,
 	},
 	{
 		name: "Microphone",
 		key: "microphone",
-		description: "This permission is required to record audio in your Caps.",
+		description: "This permission is required to record audio in your Reels.",
 		requiresManualGrant: false,
 		optional: true,
 	},
@@ -146,7 +146,7 @@ const setupPermissions: readonly SetupPermission[] = [
 		name: "Camera",
 		key: "camera",
 		description:
-			"This permission is required to record your camera in your Caps.",
+			"This permission is required to record your camera in your Reels.",
 		requiresManualGrant: false,
 		optional: true,
 	},
@@ -700,7 +700,7 @@ function ModesOverviewStep(props: { active: boolean }) {
 					One app, every workflow
 				</h2>
 				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Whether you need speed, studio quality, or a quick screenshot — Cap
+					Whether you need speed, studio quality, or a quick screenshot — Reel
 					has a mode for it.
 				</p>
 			</div>
@@ -857,7 +857,7 @@ function ToggleStep(props: { active: boolean }) {
 					Switch modes anytime
 				</h2>
 				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Toggle between modes with a single click from the main Cap window.
+					Toggle between modes with a single click from the main Reel window.
 				</p>
 			</div>
 
@@ -988,10 +988,10 @@ function ShortcutsStep(props: { active: boolean }) {
 					<IconCapSettings class="size-5 text-gray-11" />
 				</div>
 				<h2 class="text-2xl font-bold text-gray-12 tracking-tight">
-					Make Cap yours
+					Make Reel yours
 				</h2>
 				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Customize everything from keyboard shortcuts to storage. Cap adapts to
+					Customize everything from keyboard shortcuts to storage. Reel adapts to
 					your workflow.
 				</p>
 			</div>
@@ -1070,26 +1070,9 @@ function FaqStep(props: { active: boolean }) {
 					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
 				)}
 			>
-				<FaqItem question="Is Cap free to use?">
+				<FaqItem question="Is Reel free to use?">
 					<p class="text-[13px] text-gray-10 leading-relaxed">
-						Cap is free for personal use. For teams and commercial use, check
-						out our{" "}
-						<button
-							type="button"
-							onClick={() => shell.open("https://cap.so/pricing")}
-							class="text-blue-10 hover:text-blue-11 underline underline-offset-2"
-						>
-							pricing plans
-						</button>
-						.
-					</p>
-				</FaqItem>
-				<FaqItem question="What's the difference between Instant and Studio?">
-					<p class="text-[13px] text-gray-10 leading-relaxed">
-						Instant mode uploads as you record — stop recording and you'll have
-						a shareable link immediately. Studio mode records locally in full
-						quality, letting you edit with backgrounds, effects, and more before
-						sharing.
+						Reel is free and open source for personal use.
 					</p>
 				</FaqItem>
 				<FaqItem question="Where are my recordings stored?">
@@ -1106,9 +1089,8 @@ function FaqStep(props: { active: boolean }) {
 				</FaqItem>
 				<FaqItem question="How does sharing work?">
 					<p class="text-[13px] text-gray-10 leading-relaxed">
-						In Instant mode, you get a shareable link automatically when you
-						stop recording. In Studio mode, export your edited video and share
-						via Cap's cloud or save locally.
+						Studio mode records locally in full quality. Export your edited
+						video and share via the file you save locally.
 					</p>
 				</FaqItem>
 			</div>
@@ -1570,7 +1552,7 @@ function StudioMockup(props: { active: boolean }) {
 								<div class="size-2 rounded-full bg-gray-6" />
 							</div>
 							<span class="text-[10px] text-gray-11 font-medium">
-								Cap Editor
+								Reel Editor
 							</span>
 						</div>
 						<div
@@ -1911,12 +1893,17 @@ function StartupOverlay(props: {
 				style={{ transition: "all 600ms cubic-bezier(0.4, 0, 0.2, 1)" }}
 			>
 				<div class="text-center">
-					<div onClick={handleLogoClick} class="cursor-pointer inline-block">
-						<IconCapLogo
-							class={cx(
-								"w-20 h-24 mx-auto drop-shadow-[0_0_100px_rgba(0,0,0,0.2)]",
-								isLogoAnimating() && "startup-logo-bounce",
-							)}
+					<div
+						onClick={handleLogoClick}
+						class={cx(
+							"cursor-pointer inline-flex items-baseline gap-3 select-none drop-shadow-[0_0_100px_rgba(0,0,0,0.2)]",
+							isLogoAnimating() && "startup-logo-bounce",
+						)}
+					>
+						<span class="text-7xl font-semibold tracking-[-0.04em]">Reel</span>
+						<span
+							aria-hidden="true"
+							class="inline-block size-4 rounded-full bg-(--blue-400)"
 						/>
 					</div>
 					<h1 class="text-5xl md:text-5xl font-bold mb-4 mt-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.2)]">
@@ -1998,8 +1985,8 @@ function PermissionsStep(props: {
 	const maybePromptRestartForPermission = async (permission: OSPermission) => {
 		const message =
 			permission === "accessibility"
-				? "After enabling Accessibility for Cap in System Settings, macOS may keep showing it as denied until you restart the app."
-				: "After adding Cap in System Settings, you'll need to restart the app for the permission to take effect.";
+				? "After enabling Accessibility for Reel in System Settings, macOS may keep showing it as denied until you restart the app."
+				: "After adding Reel in System Settings, you'll need to restart the app for the permission to take effect.";
 		const shouldRestart = await ask(message, {
 			title: "Restart Required",
 			kind: "info",
@@ -2074,7 +2061,7 @@ function PermissionsStep(props: {
 					Permissions Required
 				</h2>
 				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Cap needs a few permissions to record your screen and capture audio.
+					Reel needs a few permissions to record your screen and capture audio.
 				</p>
 			</div>
 
