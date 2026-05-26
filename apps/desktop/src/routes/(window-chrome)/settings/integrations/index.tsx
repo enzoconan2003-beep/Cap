@@ -106,7 +106,7 @@ export default function AppsTab() {
 			<SettingsPageContent>
 				<Section
 					title="Integrations"
-					description="Configure integrations to extend Cap's functionality and connect with third-party services."
+					description="Configure integrations to extend Reel's functionality and connect with third-party services."
 				>
 					<div class="space-y-3">
 						<For each={apps}>
