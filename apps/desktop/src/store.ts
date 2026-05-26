@@ -63,9 +63,8 @@ function declareStore<T extends object>(name: string, defaults?: T) {
 
 export const presetsStore = declareStore<PresetsStore>("presets");
 
-// Personal fork: spoof a permanently signed-in + Pro user so every auth/upgrade
-// gate downstream just passes. Real Cap.so token never used; cloud features
-// hidden separately at their UI sites.
+// Personal fork: spoof a permanently signed-in + Pro user across EVERY API
+// (.get, .listen, .createQuery). The real Tauri "auth" store is never read.
 const FAKE_AUTH: AuthStore = {
 	secret: { token: "local-fork", expires: Number.MAX_SAFE_INTEGER },
 	user_id: "local-fork-user",
@@ -73,13 +72,38 @@ const FAKE_AUTH: AuthStore = {
 	organizations: [],
 	organizations_updated_at: Date.now(),
 };
-const _realAuthStore = declareStore<AuthStore>("auth");
-export const authStore: typeof _realAuthStore = {
-	..._realAuthStore,
+export const authStore = {
 	get: async () => FAKE_AUTH,
-	listen: (fn) => {
+	listen: (fn: (data?: AuthStore | undefined) => void) => {
 		fn(FAKE_AUTH);
-		return _realAuthStore.listen(() => fn(FAKE_AUTH));
+		return Promise.resolve(() => {});
+	},
+	set: async (_value?: Partial<AuthStore>) => {
+		// no-op — auth state is constant in personal fork
+	},
+	createQuery: () => {
+		// Return an object shaped like a TanStack Query result. Only `data`,
+		// `isLoading`, `isPending`, `isError`, `error`, `refetch` are read by
+		// callers; everything else is a stub.
+		return new Proxy(
+			{
+				data: FAKE_AUTH,
+				isLoading: false,
+				isPending: false,
+				isError: false,
+				isSuccess: true,
+				isFetching: false,
+				error: null,
+				status: "success" as const,
+				refetch: async () => ({ data: FAKE_AUTH }),
+			},
+			{
+				get(target, prop) {
+					if (prop in target) return (target as Record<string | symbol, unknown>)[prop as string];
+					return undefined;
+				},
+			},
+		) as unknown as ReturnType<ReturnType<typeof declareStore<AuthStore>>["createQuery"]>;
 	},
 };
 
