@@ -1562,7 +1562,7 @@ function createUpdateCheck() {
 		} catch (e) {
 			console.error("Failed to check for updates:", e);
 			await dialog.message(
-				"Unable to check for updates. Please download the latest version manually from cap.so/download. Your data will not be lost.\n\nIf this issue persists, please contact support.",
+				"Unable to check for updates. Please try again later. Your data will not be lost.\n\nIf this issue persists, please contact support.",
 				{ title: "Update Error", kind: "error" },
 			);
 			return;
