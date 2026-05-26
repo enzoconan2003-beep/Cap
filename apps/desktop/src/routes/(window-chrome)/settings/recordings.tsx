@@ -325,8 +325,6 @@ function RecordingItem(props: {
 }) {
 	const [imageExists, setImageExists] = createSignal(true);
 	const mode = () => props.recording.meta.mode;
-	const firstLetterUpperCase = () =>
-		mode().charAt(0).toUpperCase() + mode().slice(1);
 
 	const queryClient = useQueryClient();
 	const studioCompleteCheck = () =>
@@ -363,20 +361,6 @@ function RecordingItem(props: {
 				<div class="flex flex-col gap-2">
 					<span>{props.recording.prettyName}</span>
 					<div class="flex space-x-1">
-						<div
-							class={cx(
-								"px-2 py-0.5 flex items-center gap-1.5 font-medium text-[11px] text-gray-12 rounded-full w-fit",
-								mode() === "instant" ? "bg-blue-100" : "bg-gray-4",
-							)}
-						>
-							{mode() === "instant" ? (
-								<IconCapInstant class="invert size-2.5 dark:invert-0" />
-							) : (
-								<IconCapFilmCut class="invert size-2.5 dark:invert-0" />
-							)}
-							<p>{firstLetterUpperCase()}</p>
-						</div>
-
 						<Show when={props.recording.meta.status.status === "InProgress"}>
 							<div
 								class={cx(
@@ -452,52 +436,6 @@ function RecordingItem(props: {
 					>
 						<IconLucideEdit class="size-4" />
 					</TooltipIconButton>
-				</Show>
-				<Show when={mode() === "instant"}>
-					{(_) => {
-						const reupload = createMutation(() => ({
-							mutationFn: () =>
-								commands.uploadExportedVideo(
-									props.recording.path,
-									"Reupload",
-									new Channel<UploadProgress>((_progress) => {}),
-									null,
-								),
-						}));
-
-						return (
-							<>
-								<Show
-									when={props.uploadProgress || reupload.isPending}
-									fallback={
-										<TooltipIconButton
-											tooltipText="Reupload"
-											onClick={() => reupload.mutate()}
-										>
-											<IconLucideRotateCcw class="size-4" />
-										</TooltipIconButton>
-									}
-								>
-									<ProgressCircle
-										variant="primary"
-										progress={props.uploadProgress || 0}
-										size="sm"
-									/>
-								</Show>
-
-								<Show when={props.recording.meta.sharing}>
-									{(sharing) => (
-										<TooltipIconButton
-											tooltipText="Open link"
-											onClick={() => shell.open(sharing().link)}
-										>
-											<IconCapLink class="size-4" />
-										</TooltipIconButton>
-									)}
-								</Show>
-							</>
-						);
-					}}
 				</Show>
 				<TooltipIconButton
 					tooltipText="Open recording bundle"
