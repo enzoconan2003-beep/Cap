@@ -1490,25 +1490,36 @@ function StartupOverlay(props: {
 				)}
 				style={{ transition: "all 600ms cubic-bezier(0.4, 0, 0.2, 1)" }}
 			>
-				<div class="text-center">
+				<div class="text-center relative">
+					<div
+						aria-hidden="true"
+						class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[420px] rounded-full pointer-events-none"
+						style={{
+							background:
+								"radial-gradient(closest-side, rgba(139,109,255,0.28), rgba(139,109,255,0) 70%)",
+						}}
+					/>
 					<div
 						onClick={handleLogoClick}
 						class={cx(
-							"cursor-pointer inline-flex items-baseline gap-3 select-none drop-shadow-[0_0_100px_rgba(0,0,0,0.2)]",
+							"relative cursor-pointer inline-flex items-baseline gap-3 select-none drop-shadow-[0_0_100px_rgba(0,0,0,0.2)]",
 							isLogoAnimating() && "startup-logo-bounce",
 						)}
 					>
-						<span class="text-7xl font-semibold tracking-[-0.04em]">Reel</span>
+						<span class="text-7xl font-semibold tracking-[-0.045em]">Reel</span>
 						<span
 							aria-hidden="true"
-							class="inline-block size-4 rounded-full bg-(--blue-400)"
+							class="inline-block size-4 rounded-full bg-[var(--reel-accent)] shadow-[0_0_24px_rgba(139,109,255,0.7)]"
 						/>
 					</div>
-					<h1 class="text-5xl md:text-5xl font-bold mb-4 mt-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.2)]">
-						Welcome to Reel
+					<h1 class="relative text-5xl md:text-5xl font-bold mb-5 mt-8 tracking-[-0.035em] leading-[1.05] drop-shadow-[0_0_20px_rgba(0,0,0,0.2)]">
+						Screen recordings,
+						<br />
+						worth shipping.
 					</h1>
-					<p class="text-xl md:text-2xl opacity-80 mx-auto drop-shadow-[0_0_20px_rgba(0,0,0,0.2)] whitespace-nowrap">
-						Beautiful screen recordings, owned by you.
+					<p class="relative text-lg md:text-xl opacity-75 mx-auto max-w-[460px] leading-snug tracking-tight drop-shadow-[0_0_20px_rgba(0,0,0,0.2)]">
+						Record, edit, and export demos that actually look like the product
+						you built.
 					</p>
 				</div>
 
