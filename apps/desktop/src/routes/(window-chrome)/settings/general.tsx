@@ -1,5 +1,4 @@
 import { Button } from "@cap/ui-solid";
-import { createWritableMemo } from "@solid-primitives/memo";
 import {
 	isPermissionGranted,
 	requestPermission,
@@ -8,7 +7,6 @@ import { type OsType, type } from "@tauri-apps/plugin-os";
 import "@total-typescript/ts-reset/filter-boolean";
 import { Collapsible } from "@kobalte/core/collapsible";
 import { CheckMenuItem, Menu, MenuItem } from "@tauri-apps/api/menu";
-import { confirm } from "@tauri-apps/plugin-dialog";
 import { cx } from "cva";
 import {
 	createEffect,
@@ -25,7 +23,7 @@ import themePreviewAuto from "~/assets/theme-previews/auto.jpg";
 import themePreviewDark from "~/assets/theme-previews/dark.jpg";
 import themePreviewLight from "~/assets/theme-previews/light.jpg";
 import { Input } from "~/routes/editor/ui";
-import { authStore, generalSettingsStore } from "~/store";
+import { generalSettingsStore } from "~/store";
 import {
 	deriveGeneralSettings,
 	type GeneralSettingsStore,
@@ -456,10 +454,6 @@ function Inner(props: { initialStore: GeneralSettingsStore | null }) {
 					onStudioQualityChange={(value) =>
 						handleChange("studioRecordingQuality", value)
 					}
-					instantResolution={settings.instantModeMaxResolution ?? 1920}
-					onInstantResolutionChange={(value) =>
-						handleChange("instantModeMaxResolution", value)
-					}
 				/>
 
 				<Section
@@ -517,14 +511,6 @@ function Inner(props: { initialStore: GeneralSettingsStore | null }) {
 							]}
 						/>
 						<ToggleSettingItem
-							label="Delete Instant recordings after upload"
-							description="Cap removes the local file once it has uploaded successfully."
-							value={settings.deleteInstantRecordingsAfterUpload ?? false}
-							onChange={(v) =>
-								handleChange("deleteInstantRecordingsAfterUpload", v)
-							}
-						/>
-						<ToggleSettingItem
 							label="Crash-recoverable recording"
 							description="Record in fragments that can be recovered after a crash or power loss. Slightly larger files during capture."
 							value={settings.crashRecoveryRecording ?? true}
@@ -569,21 +555,6 @@ function Inner(props: { initialStore: GeneralSettingsStore | null }) {
 					</SectionRows>
 				</Section>
 
-				<Section
-					title="Cap Pro"
-					description="Settings available with a Cap Pro license."
-					pro
-				>
-					<SectionRows>
-						<ToggleSettingItem
-							label="Auto-open shareable links"
-							description="Open the share link in your browser as soon as the upload finishes."
-							value={!settings.disableAutoOpenLinks}
-							onChange={(v) => handleChange("disableAutoOpenLinks", !v)}
-						/>
-					</SectionRows>
-				</Section>
-
 				<DefaultProjectNameCard
 					onChange={(value) =>
 						handleChange("defaultProjectNameTemplate", value)
@@ -600,25 +571,6 @@ function Inner(props: { initialStore: GeneralSettingsStore | null }) {
 					onReset={handleResetExclusions}
 					isLoading={windows.loading}
 					isWindows={ostype === "windows"}
-				/>
-
-				<ServerURLSetting
-					value={settings.serverUrl ?? "https://cap.so"}
-					onChange={async (v) => {
-						const url = new URL(v);
-						const origin = url.origin;
-
-						if (
-							!(await confirm(
-								`Are you sure you want to change the server URL to '${origin}'? You will need to sign in again.`,
-							))
-						)
-							return;
-
-						await authStore.set(undefined);
-						await commands.setServerUrl(origin);
-						handleChange("serverUrl", origin);
-					}}
 				/>
 
 				<TelemetryCard
@@ -674,23 +626,6 @@ const STUDIO_QUALITY_TIERS: StudioQualityTier[] = [
 		summary: "Maximum detail for color-graded, large-display edits.",
 		bestFor: "M-series Pro/Max, discrete GPUs, 32GB+ RAM, NVMe.",
 	},
-];
-
-type InstantResolutionTier = {
-	value: number;
-	label: string;
-	summary: string;
-};
-
-const INSTANT_RESOLUTION_TIERS: InstantResolutionTier[] = [
-	{ value: 1280, label: "720p", summary: "Smallest size, low bandwidth." },
-	{
-		value: 1920,
-		label: "1080p",
-		summary: "Recommended. Sharp on most networks.",
-	},
-	{ value: 2560, label: "1440p", summary: "More detail for desktop content." },
-	{ value: 3840, label: "4K", summary: "Max clarity. Needs fast upload." },
 ];
 
 function SegmentedControl<T extends string | number>(props: {
@@ -764,101 +699,20 @@ function StudioQualitySubsection(props: {
 	);
 }
 
-function InstantQualitySubsection(props: {
-	value: number;
-	onChange: (value: number) => void;
-}) {
-	const currentTier = createMemo(
-		() =>
-			INSTANT_RESOLUTION_TIERS.find((t) => t.value === props.value) ??
-			INSTANT_RESOLUTION_TIERS[1],
-	);
-
-	return (
-		<div
-			id="settings-section-instant-quality"
-			class="flex flex-col gap-3 px-4 py-4"
-		>
-			<div class="flex justify-between items-start gap-4">
-				<div class="flex flex-col gap-0.5 min-w-0">
-					<p class="text-[13px] text-gray-12">Instant mode</p>
-					<p class="text-xs leading-snug text-gray-10">
-						Maximum upload resolution for Instant recordings.
-					</p>
-				</div>
-				<SegmentedControl
-					value={props.value}
-					onChange={props.onChange}
-					options={INSTANT_RESOLUTION_TIERS.map((tier) => ({
-						value: tier.value,
-						label: tier.label,
-					}))}
-				/>
-			</div>
-			<div class="flex flex-col gap-1.5 px-3 py-2.5 rounded-lg bg-gray-3">
-				<p class="text-xs text-gray-12">{currentTier().summary}</p>
-			</div>
-		</div>
-	);
-}
-
 function QualitySection(props: {
 	studioQuality: StudioRecordingQuality;
 	onStudioQualityChange: (value: StudioRecordingQuality) => void;
-	instantResolution: number;
-	onInstantResolutionChange: (value: number) => void;
 }) {
 	return (
 		<Section
 			title="Quality"
-			description="Pick the right profile for each recording mode."
+			description="Encoder profile for local recordings."
 		>
 			<SectionCard class="divide-y divide-gray-3">
 				<StudioQualitySubsection
 					value={props.studioQuality}
 					onChange={props.onStudioQualityChange}
 				/>
-				<InstantQualitySubsection
-					value={props.instantResolution}
-					onChange={props.onInstantResolutionChange}
-				/>
-			</SectionCard>
-		</Section>
-	);
-}
-
-function ServerURLSetting(props: {
-	value: string;
-	onChange: (v: string) => void;
-}) {
-	const [value, setValue] = createWritableMemo(() => props.value);
-
-	return (
-		<Section
-			title="Self-host"
-			description="Only change this if you are running your own instance of Cap Web."
-		>
-			<SectionCard padded>
-				<div class="flex flex-col gap-3">
-					<label class="flex flex-col gap-1.5">
-						<span class="text-[13px] text-gray-12">Cap Server URL</span>
-						<Input
-							class="bg-gray-3"
-							value={value()}
-							onInput={(e) => setValue(e.currentTarget.value)}
-						/>
-					</label>
-					<div class="flex justify-end">
-						<Button
-							size="sm"
-							variant="dark"
-							disabled={props.value === value()}
-							onClick={() => props.onChange(value())}
-						>
-							Update
-						</Button>
-					</div>
-				</div>
 			</SectionCard>
 		</Section>
 	);
