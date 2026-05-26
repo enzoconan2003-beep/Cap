@@ -586,7 +586,12 @@ function StepNavigation(props: {
 							onClick={props.onNext}
 							variant="primary"
 							size="md"
-							class="gap-2 px-10 py-3 min-h-12 min-w-38 text-[15px] font-medium"
+							class={cx(
+								"gap-2 font-medium transition-all duration-300",
+								props.current === props.total - 1
+									? "px-12 py-3.5 min-h-13 min-w-44 text-[15px] tracking-tight bg-[var(--reel-accent)] hover:bg-[var(--reel-accent-hover)] border-[var(--reel-accent)] shadow-[0_8px_28px_rgba(106,72,238,0.35)]"
+									: "px-10 py-3 min-h-12 min-w-38 text-[15px]",
+							)}
 							disabled={props.nextDisabled}
 						>
 							{props.nextLabel}
