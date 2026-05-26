@@ -204,7 +204,7 @@ export default function DeviceSelectOverlay<T>(
 								class={cx(
 									"flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm transition-colors text-left",
 									props.selectedItem === null
-										? "bg-blue-500 text-white"
+										? "bg-[var(--reel-accent)] text-white"
 										: "hover:bg-white/10 text-white/70",
 								)}
 							>
@@ -245,7 +245,7 @@ export default function DeviceSelectOverlay<T>(
 											class={cx(
 												"flex flex-col gap-0.5 px-2.5 py-2 rounded-lg text-sm transition-colors text-left",
 												isSelected()
-													? "bg-blue-500 text-white"
+													? "bg-[var(--reel-accent)] text-white"
 													: "hover:bg-white/10 text-white",
 											)}
 										>
