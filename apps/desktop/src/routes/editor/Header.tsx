@@ -33,7 +33,6 @@ import {
 	transcribeEditorCaptions,
 } from "./captions";
 import { serializeProjectConfiguration, useEditorContext } from "./context";
-import OrganizationDropdown from "./OrganizationDropdown";
 import PresetsDropdown from "./PresetsDropdown";
 import ShareButton from "./ShareButton";
 import { Dialog, EditorButton, Input } from "./ui";
@@ -336,7 +335,6 @@ export function Header() {
 				class="flex flex-row items-center justify-center gap-2 px-4 border-x border-black-transparent-10"
 			>
 				<PresetsDropdown />
-				<OrganizationDropdown />
 			</div>
 
 			<div
