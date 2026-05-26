@@ -66,29 +66,29 @@ interface ModeDetail {
 const modes: ModeDetail[] = [
 	{
 		id: "studio",
-		title: "Studio Mode",
-		tagline: "Record, edit, export",
+		title: "Studio",
+		tagline: "Demos that sell",
 		description:
-			"Record in full quality locally, then use the built-in editor to add zoom keyframes, backgrounds, and a camera overlay.",
+			"Record in full quality, then use the editor to drop in zoom keyframes, a camera overlay, and export a clean MP4.",
 		icon: IconCapFilmCut,
 		features: [
-			"Full quality local recording",
+			"Lossless local capture",
 			"Zoom keyframes for product demos",
-			"Camera overlay with rounded frame",
-			"Export to MP4",
+			"Camera overlay, rounded frame",
+			"One-click MP4 export",
 		],
 	},
 	{
 		id: "screenshot",
-		title: "Screenshot Mode",
-		tagline: "Capture & beautify instantly",
+		title: "Screenshot",
+		tagline: "Capture and ship",
 		description:
-			"Take screenshots with a single hotkey, add annotations and beautiful backgrounds.",
+			"Hotkey, frame, drop a background, copy to clipboard. Done before the thought leaves your head.",
 		icon: IconCapScreenshot,
 		features: [
-			"Instant hotkey capture",
-			"Annotation & drawing tools",
-			"Beautiful backgrounds",
+			"Hotkey-driven capture",
+			"Annotate and draw",
+			"Background presets",
 			"Copy or save locally",
 		],
 	},
@@ -107,28 +107,27 @@ const setupPermissions: readonly SetupPermission[] = [
 		name: "Screen Recording",
 		key: "screenRecording",
 		description:
-			"Click Grant to allow when macOS asks, or pick Reel in System Settings if needed. Restart the app after allowing screen recording.",
+			"So Reel can actually see what you're recording. Grant, then restart the app.",
 		requiresManualGrant: false,
 	},
 	{
 		name: "Accessibility",
 		key: "accessibility",
 		description:
-			"During recording, Reel collects mouse activity locally to generate automatic zoom in segments.",
+			"Tracks cursor movement locally to auto-place zoom keyframes. Nothing leaves your machine.",
 		requiresManualGrant: false,
 	},
 	{
 		name: "Microphone",
 		key: "microphone",
-		description: "This permission is required to record audio in your Reels.",
+		description: "Capture voiceover and system audio while you record.",
 		requiresManualGrant: false,
 		optional: true,
 	},
 	{
 		name: "Camera",
 		key: "camera",
-		description:
-			"This permission is required to record your camera in your Reels.",
+		description: "Add a camera overlay on top of your screen recording.",
 		requiresManualGrant: false,
 		optional: true,
 	},
@@ -587,7 +586,12 @@ function StepNavigation(props: {
 							onClick={props.onNext}
 							variant="primary"
 							size="md"
-							class="gap-2 px-10 py-3 min-h-12 min-w-38 text-[15px] font-medium"
+							class={cx(
+								"gap-2 font-medium transition-all duration-300",
+								props.current === props.total - 1
+									? "px-12 py-3.5 min-h-13 min-w-44 text-[15px] tracking-tight bg-[var(--reel-accent)] hover:bg-[var(--reel-accent-hover)] border-[var(--reel-accent)] shadow-[0_8px_28px_rgba(106,72,238,0.35)]"
+									: "px-10 py-3 min-h-12 min-w-38 text-[15px]",
+							)}
 							disabled={props.nextDisabled}
 						>
 							{props.nextLabel}
@@ -667,20 +671,20 @@ function ModesOverviewStep(props: { active: boolean }) {
 					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
 				)}
 			>
-				<h2 class="text-2xl font-bold text-gray-12 tracking-tight">
-					Two modes, one focus
+				<h2 class="text-[26px] font-bold text-gray-12 tracking-[-0.02em] leading-tight">
+					Two modes. Pick a lane.
 				</h2>
-				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Record polished product demos in Studio, or grab quick screenshots —
-					whichever you need.
+				<p class="text-[14px] text-gray-10 leading-relaxed tracking-tight">
+					Studio for polished demos with zoom keyframes and MP4 export.
+					Screenshot for everything else.
 				</p>
 			</div>
 
-			<div class="flex gap-4 w-full max-w-[420px]">
+			<div class="flex gap-4 w-full max-w-[440px]">
 				<For each={modes}>
 					{(mode, index) => (
 						<div
-							class="flex-1 flex flex-col items-center gap-3 p-5 rounded-2xl border border-gray-4 bg-white dark:bg-gray-2 transition-all duration-500 ease-out shadow-xs"
+							class="group flex-1 flex flex-col items-center gap-3 p-5 rounded-2xl border border-gray-4 bg-white dark:bg-gray-2 transition-all duration-500 ease-out shadow-xs hover:border-[var(--reel-accent)]/40 hover:shadow-[0_8px_24px_rgba(139,109,255,0.12)]"
 							style={{
 								"transition-delay": `${200 + index() * 100}ms`,
 								opacity: visible() ? 1 : 0,
@@ -689,14 +693,14 @@ function ModesOverviewStep(props: { active: boolean }) {
 									: "translateY(16px) scale(0.95)",
 							}}
 						>
-							<div class="flex items-center justify-center size-12 rounded-2xl border border-gray-5 bg-white dark:bg-gray-3">
+							<div class="flex items-center justify-center size-12 rounded-2xl border border-gray-5 bg-white dark:bg-gray-3 group-hover:border-[var(--reel-accent)]/30 transition-colors">
 								<mode.icon class="size-5 invert dark:invert-0" />
 							</div>
 							<div class="text-center">
-								<div class="text-sm font-semibold text-gray-12">
+								<div class="text-[15px] font-semibold text-gray-12 tracking-tight">
 									{mode.title}
 								</div>
-								<div class="text-[11px] text-gray-9 mt-1 leading-snug">
+								<div class="text-[11px] text-gray-9 mt-1 leading-snug tracking-tight">
 									{mode.tagline}
 								</div>
 							</div>
@@ -739,14 +743,16 @@ function ModeDetailStep(props: {
 							<props.mode.icon class="size-5 invert dark:invert-0" />
 						</div>
 						<div>
-							<h3 class="text-lg font-bold text-gray-12">{props.mode.title}</h3>
-							<p class="text-[11px] font-medium text-gray-9">
+							<h3 class="text-xl font-bold text-gray-12 tracking-[-0.02em] leading-tight">
+								{props.mode.title}
+							</h3>
+							<p class="text-[11px] font-medium text-[var(--reel-accent)] tracking-tight">
 								{props.mode.tagline}
 							</p>
 						</div>
 					</div>
 
-					<p class="text-[13px] text-gray-10 leading-relaxed">
+					<p class="text-[13px] text-gray-10 leading-relaxed tracking-tight">
 						{props.mode.description}
 					</p>
 
@@ -761,10 +767,12 @@ function ModeDetailStep(props: {
 										transform: visible() ? "translateX(0)" : "translateX(-8px)",
 									}}
 								>
-									<div class="flex items-center justify-center size-5 rounded-full shrink-0 bg-blue-9">
+									<div class="flex items-center justify-center size-5 rounded-full shrink-0 bg-[var(--reel-accent)]">
 										<IconLucideCheck class="size-2.5 text-white" />
 									</div>
-									<span class="text-xs text-gray-11">{feature}</span>
+									<span class="text-xs text-gray-11 tracking-tight">
+										{feature}
+									</span>
 								</div>
 							)}
 						</For>
@@ -796,16 +804,16 @@ function ShortcutsStep(props: { active: boolean }) {
 
 	const settingsAreas = [
 		{
-			title: "Keyboard Shortcuts",
-			desc: "Global hotkeys for recording, screenshots, and switching modes",
+			title: "Keyboard shortcuts",
+			desc: "Global hotkeys for record, screenshot, and mode switching",
 		},
 		{
-			title: "Recording Preferences",
-			desc: "FPS, quality, countdown timer, cursor effects, and more",
+			title: "Recording preferences",
+			desc: "FPS, quality, countdown, cursor effects",
 		},
 		{
-			title: "Editor Defaults",
-			desc: "Set default backgrounds, padding, and shadow for new projects",
+			title: "Editor defaults",
+			desc: "Default background, padding, shadow for new projects",
 		},
 	];
 
@@ -813,56 +821,48 @@ function ShortcutsStep(props: { active: boolean }) {
 		<div class="flex flex-col items-center justify-center min-h-full px-12 gap-6">
 			<div
 				class={cx(
-					"flex flex-col items-center gap-3 text-center max-w-[440px] transition-all duration-500",
+					"flex flex-col items-center gap-3 text-center max-w-[460px] transition-all duration-500",
 					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
 				)}
 			>
-				<div class="flex items-center justify-center size-12 rounded-2xl bg-white dark:bg-gray-3 border border-gray-4">
-					<IconCapSettings class="size-5 text-gray-11" />
+				<div class="flex items-center justify-center size-12 rounded-2xl bg-white dark:bg-gray-3 border border-gray-4 shadow-[0_0_24px_rgba(139,109,255,0.18)]">
+					<IconCapSettings class="size-5 text-[var(--reel-accent)]" />
 				</div>
-				<h2 class="text-2xl font-bold text-gray-12 tracking-tight">
-					Make Reel yours
+				<h2 class="text-[26px] font-bold text-gray-12 tracking-[-0.02em] leading-tight">
+					You're set. Make it yours.
 				</h2>
-				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Customize everything from keyboard shortcuts to editor defaults.
+				<p class="text-[14px] text-gray-10 leading-relaxed tracking-tight">
+					Three knobs that matter most. Tune them now or skip — everything's
+					editable later.
 				</p>
 			</div>
 
 			<div
 				class={cx(
-					"w-full max-w-[420px] flex flex-col gap-2 transition-all duration-500 delay-100",
+					"w-full max-w-[440px] flex flex-col gap-2 transition-all duration-500 delay-100",
 					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
 				)}
 			>
 				<For each={settingsAreas}>
 					{(area, index) => (
 						<div
-							class="flex flex-col gap-1 px-4 py-3 rounded-xl border border-gray-4 bg-white dark:bg-gray-2 transition-all duration-500 shadow-xs"
+							class="flex flex-col gap-1 px-4 py-3 rounded-xl border border-gray-4 bg-white dark:bg-gray-2 transition-all duration-500 shadow-xs hover:border-[var(--reel-accent)]/30"
 							style={{
 								"transition-delay": `${150 + index() * 80}ms`,
 								opacity: visible() ? 1 : 0,
 								transform: visible() ? "translateY(0)" : "translateY(8px)",
 							}}
 						>
-							<span class="text-[13px] font-medium text-gray-12">
+							<span class="text-[13px] font-semibold text-gray-12 tracking-tight">
 								{area.title}
 							</span>
-							<span class="text-[11px] text-gray-10 leading-snug">
+							<span class="text-[11px] text-gray-10 leading-snug tracking-tight">
 								{area.desc}
 							</span>
 						</div>
 					)}
 				</For>
 			</div>
-
-			<p
-				class={cx(
-					"text-xs text-gray-9 transition-all duration-500 delay-300",
-					visible() ? "opacity-100" : "opacity-0",
-				)}
-			>
-				Change any of these at any time in Settings
-			</p>
 		</div>
 	);
 }
@@ -1490,25 +1490,36 @@ function StartupOverlay(props: {
 				)}
 				style={{ transition: "all 600ms cubic-bezier(0.4, 0, 0.2, 1)" }}
 			>
-				<div class="text-center">
+				<div class="text-center relative">
+					<div
+						aria-hidden="true"
+						class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-[420px] rounded-full pointer-events-none"
+						style={{
+							background:
+								"radial-gradient(closest-side, rgba(139,109,255,0.28), rgba(139,109,255,0) 70%)",
+						}}
+					/>
 					<div
 						onClick={handleLogoClick}
 						class={cx(
-							"cursor-pointer inline-flex items-baseline gap-3 select-none drop-shadow-[0_0_100px_rgba(0,0,0,0.2)]",
+							"relative cursor-pointer inline-flex items-baseline gap-3 select-none drop-shadow-[0_0_100px_rgba(0,0,0,0.2)]",
 							isLogoAnimating() && "startup-logo-bounce",
 						)}
 					>
-						<span class="text-7xl font-semibold tracking-[-0.04em]">Reel</span>
+						<span class="text-7xl font-semibold tracking-[-0.045em]">Reel</span>
 						<span
 							aria-hidden="true"
-							class="inline-block size-4 rounded-full bg-(--blue-400)"
+							class="inline-block size-4 rounded-full bg-[var(--reel-accent)] shadow-[0_0_24px_rgba(139,109,255,0.7)]"
 						/>
 					</div>
-					<h1 class="text-5xl md:text-5xl font-bold mb-4 mt-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.2)]">
-						Welcome to Reel
+					<h1 class="relative text-5xl md:text-5xl font-bold mb-5 mt-8 tracking-[-0.035em] leading-[1.05] drop-shadow-[0_0_20px_rgba(0,0,0,0.2)]">
+						Screen recordings,
+						<br />
+						worth shipping.
 					</h1>
-					<p class="text-xl md:text-2xl opacity-80 mx-auto drop-shadow-[0_0_20px_rgba(0,0,0,0.2)] whitespace-nowrap">
-						Beautiful screen recordings, owned by you.
+					<p class="relative text-lg md:text-xl opacity-75 mx-auto max-w-[460px] leading-snug tracking-tight drop-shadow-[0_0_20px_rgba(0,0,0,0.2)]">
+						Record, edit, and export demos that actually look like the product
+						you built.
 					</p>
 				</div>
 
@@ -1652,14 +1663,14 @@ function PermissionsStep(props: {
 					visible() ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
 				)}
 			>
-				<div class="flex items-center justify-center size-12 rounded-2xl bg-white dark:bg-gray-3 border border-gray-4">
-					<IconLucideShield class="size-5 text-gray-11" />
+				<div class="flex items-center justify-center size-12 rounded-2xl bg-white dark:bg-gray-3 border border-gray-4 shadow-[0_0_24px_rgba(139,109,255,0.18)]">
+					<IconLucideShield class="size-5 text-[var(--reel-accent)]" />
 				</div>
-				<h2 class="text-2xl font-bold text-gray-12 tracking-tight">
-					Permissions Required
+				<h2 class="text-[26px] font-bold text-gray-12 tracking-[-0.02em] leading-tight">
+					Give Reel the keys
 				</h2>
-				<p class="text-[14px] text-gray-10 leading-relaxed">
-					Reel needs a few permissions to record your screen and capture audio.
+				<p class="text-[14px] text-gray-10 leading-relaxed tracking-tight">
+					Four permissions, two are optional. Everything stays local.
 				</p>
 			</div>
 
