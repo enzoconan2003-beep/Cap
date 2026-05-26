@@ -60,7 +60,7 @@ export function Subfield(
 			<span class="font-medium text-gray-12">
 				{props.name}
 				{props.required && (
-					<span class="ml-[2px] text-xs text-blue-500">*</span>
+					<span class="ml-[2px] text-xs text-[var(--reel-accent)]">*</span>
 				)}
 			</span>
 			{props.children}

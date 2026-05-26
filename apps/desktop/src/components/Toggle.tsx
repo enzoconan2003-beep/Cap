@@ -3,7 +3,7 @@ import { cva } from "cva";
 import { type ComponentProps, splitProps } from "solid-js";
 
 const toggleControlStyles = cva(
-	"cap-toggle rounded-full bg-gray-6 data-disabled:bg-gray-3 data-checked:bg-blue-500 transition-[background-color,box-shadow]",
+	"cap-toggle rounded-full bg-gray-6 data-disabled:bg-gray-3 data-checked:bg-[var(--reel-accent)] transition-[background-color,box-shadow]",
 	{
 		variants: {
 			size: {

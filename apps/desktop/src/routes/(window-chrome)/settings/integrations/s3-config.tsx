@@ -163,16 +163,7 @@ export default function S3ConfigPage() {
 					description={
 						<>
 							It should take under 10 minutes to set up and connect your storage
-							bucket to Cap. View the{" "}
-							<a
-								href="https://cap.so/docs/s3-config"
-								target="_blank"
-								class="underline text-gray-12"
-								rel="noopener"
-							>
-								Storage Config Guide
-							</a>{" "}
-							to get started.
+							bucket. See your provider&rsquo;s S3 docs to get started.
 						</>
 					}
 				>
@@ -180,7 +171,7 @@ export default function S3ConfigPage() {
 						<Suspense
 							fallback={
 								<div class="flex justify-center items-center w-full h-screen">
-									<IconCapLogo class="animate-spin size-16" />
+									<IconLucideLoader2 class="animate-spin size-16 text-gray-11" />
 								</div>
 							}
 						>

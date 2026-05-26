@@ -285,7 +285,7 @@ export default function GoogleDriveConfigPage() {
 						<Suspense
 							fallback={
 								<div class="flex justify-center items-center w-full h-screen">
-									<IconCapLogo class="animate-spin size-16" />
+									<IconLucideLoader2 class="animate-spin size-16 text-gray-11" />
 								</div>
 							}
 						>

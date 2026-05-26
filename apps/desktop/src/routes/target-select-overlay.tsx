@@ -345,7 +345,7 @@ function Inner() {
 				{(displayId) => (
 					<div
 						data-over={targetUnderCursor.display_id === displayId()}
-						class="relative w-screen h-screen flex flex-col items-center justify-center data-[over='true']:bg-blue-600/40 transition-colors"
+						class="relative w-screen h-screen flex flex-col items-center justify-center data-[over='true']:bg-[var(--reel-accent)]/40 transition-colors"
 					>
 						<div class="absolute inset-0 bg-black/60 -z-10" />
 
@@ -523,7 +523,7 @@ function Inner() {
 									}}
 								>
 									<div
-										class="flex absolute flex-col justify-center items-center bg-blue-600/40"
+										class="flex absolute flex-col justify-center items-center bg-[var(--reel-accent)]/40"
 										style={{
 											width: `${windowUnderCursor.bounds.size.width}px`,
 											height: `${windowUnderCursor.bounds.size.height}px`,
@@ -1582,7 +1582,7 @@ function CameraPreviewInline() {
 									<button
 										type="button"
 										onClick={handleRetryConnection}
-										class="text-xs text-blue-400 hover:text-blue-300 underline"
+										class="text-xs text-[var(--reel-accent)] hover:opacity-90 underline"
 									>
 										Try again
 									</button>

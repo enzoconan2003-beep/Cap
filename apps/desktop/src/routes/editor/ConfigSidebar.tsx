@@ -828,8 +828,8 @@ export function ConfigSidebar() {
                       "mr-2 w-4 h-4 rounded-full border border-gray-300",
                       "relative after:absolute after:inset-0 after:m-auto after:block after:w-2 after:h-2 after:rounded-full",
                       "after:transition-colors after:duration-200",
-                      "peer-checked:border-blue-500 peer-checked:after:bg-blue-400",
-                      "peer-focus-visible:ring-2 peer-focus-visible:ring-blue-400/50",
+                      "peer-checked:border-[var(--reel-accent)] peer-checked:after:bg-[var(--reel-accent)]",
+                      "peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--reel-accent)]/50",
                       "peer-disabled:opacity-50"
                     )}
                   />

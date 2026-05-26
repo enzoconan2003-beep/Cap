@@ -61,13 +61,13 @@ export default function Debug() {
 			<h2 class="text-2xl font-bold">Debug Windows</h2>
 			<div class="p-2 mb-4">
 				<button
-					class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-sm"
+					class="bg-[var(--reel-accent)] hover:opacity-90 text-white font-medium py-2 px-4 rounded-sm"
 					onClick={() => commands.showWindow("Onboarding")}
 				>
 					Show Onboarding Window
 				</button>
 				<button
-					class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-sm"
+					class="bg-[var(--reel-accent)] hover:opacity-90 text-white font-medium py-2 px-4 rounded-sm"
 					onClick={() =>
 						commands.showWindow({ InProgressRecording: { countdown: 3 } })
 					}
@@ -83,7 +83,7 @@ export default function Debug() {
 				</p>
 				<div class="flex flex-row gap-2 items-center">
 					<button
-						class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-sm disabled:opacity-50"
+						class="bg-[var(--reel-accent)] hover:opacity-90 text-white font-medium py-2 px-4 rounded-sm disabled:opacity-50"
 						onClick={checkForUpdates}
 						disabled={isChecking()}
 					>
