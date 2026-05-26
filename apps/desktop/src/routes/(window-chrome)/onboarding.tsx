@@ -413,8 +413,8 @@ export default function OnboardingPage() {
 	});
 
 	const nextLabel = () => {
-		if (permissionsOnly()) return "Continue to Cap";
-		if (step() === totalSteps() - 1) return "Start Using Cap";
+		if (permissionsOnly()) return "Continue to Reel";
+		if (step() === totalSteps() - 1) return "Start Using Reel";
 		return "Continue";
 	};
 
@@ -1094,9 +1094,8 @@ function FaqStep(props: { active: boolean }) {
 				</FaqItem>
 				<FaqItem question="Where are my recordings stored?">
 					<p class="text-[13px] text-gray-10 leading-relaxed">
-						All recordings are stored locally on your computer. In Instant mode,
-						they're also uploaded to Cap's cloud for easy sharing. You can
-						manage storage in Settings.
+						All recordings are stored locally on your computer. You can manage
+						storage in Settings.
 					</p>
 				</FaqItem>
 				<FaqItem question="Can I change my shortcuts later?">
@@ -1921,7 +1920,7 @@ function StartupOverlay(props: {
 						/>
 					</div>
 					<h1 class="text-5xl md:text-5xl font-bold mb-4 mt-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.2)]">
-						Welcome to Cap
+						Welcome to Reel
 					</h1>
 					<p class="text-xl md:text-2xl opacity-80 mx-auto drop-shadow-[0_0_20px_rgba(0,0,0,0.2)] whitespace-nowrap">
 						Beautiful screen recordings, owned by you.
