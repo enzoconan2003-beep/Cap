@@ -2646,18 +2646,9 @@ function Page() {
 			<Show when={!activeMenu()}>
 				<div class="flex items-center justify-between mt-[16px] mb-[6px]">
 					<div class="flex items-center space-x-1">
-						<a
-							class="*:w-[92px] *:h-auto text-(--text-primary)"
-							target="_blank"
-							href={
-								auth.data
-									? `${import.meta.env.VITE_SERVER_URL}/dashboard`
-									: import.meta.env.VITE_SERVER_URL
-							}
-						>
-							<IconCapLogoFullDark class="hidden dark:block" />
-							<IconCapLogoFull class="block dark:hidden" />
-						</a>
+						<span class="text-(--text-primary) text-[15px] font-semibold tracking-tight px-1">
+							Reel
+						</span>
 						<ErrorBoundary fallback={null}>
 							<Suspense>
 								<Show
