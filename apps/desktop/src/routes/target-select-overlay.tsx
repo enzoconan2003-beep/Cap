@@ -1686,6 +1686,7 @@ function RecordingControls(props: {
 		return mics().find((name) => name === rawOptions.micName) ?? null;
 	});
 
+	// Instant Mode option removed in personal fork (relied on Cap.so cloud upload).
 	const menuModes = async () =>
 		await Menu.new({
 			items: [
@@ -1696,14 +1697,6 @@ function RecordingControls(props: {
 						commands.setRecordingMode("studio");
 					},
 					checked: rawOptions.mode === "studio",
-				}),
-				await CheckMenuItem.new({
-					text: "Instant Mode",
-					action: () => {
-						setOptions("mode", "instant");
-						commands.setRecordingMode("instant");
-					},
-					checked: rawOptions.mode === "instant",
 				}),
 				await CheckMenuItem.new({
 					text: "Screenshot Mode",

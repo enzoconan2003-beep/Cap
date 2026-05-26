@@ -61,13 +61,8 @@ const ModeSelect = (props: { onClose?: () => void; standalone?: boolean }) => {
 		commands.setRecordingMode(mode);
 	};
 
+	// Instant mode removed in personal fork (relied on Cap.so cloud upload).
 	const modeOptions = [
-		{
-			mode: "instant" as const,
-			title: "Instant",
-			description: "Share instantly with a link. Uploads as you record.",
-			icon: IconCapInstant,
-		},
 		{
 			mode: "studio" as const,
 			title: "Studio",
