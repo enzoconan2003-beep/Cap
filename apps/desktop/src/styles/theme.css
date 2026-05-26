@@ -57,16 +57,23 @@
 
 	--solid-white: #ffffff;
 
-	--blue-50: #ebf1ff;
-	--blue-100: #adc9ff;
-	--blue-200: #85adff;
-	--blue-300: #4785ff;
-	--blue-400: #3f75e0;
-	--blue-500: rgb(54, 102, 197);
+	/* Reel accent — warm indigo/violet. Tuned for premium feel
+	   (Screen.studio-adjacent) vs. Cap's stock blue. The `--blue-*`
+	   names are kept so existing utility classes resolve, but the
+	   underlying hues now define the Reel brand. */
+	--blue-50: #efeaff;
+	--blue-100: #c9bbff;
+	--blue-200: #a896ff;
+	--blue-300: #7c5cff;
+	--blue-400: #6a48ee;
+	--blue-500: rgb(86, 56, 214);
 
-	--blue-transparent-0: rgba(34, 64, 122, 0);
-	--blue-transparent-10: rgba(34, 64, 122, 0.1);
-	--blue-transparent-20: rgba(34, 64, 122, 0.2);
+	--blue-transparent-0: rgba(106, 72, 238, 0);
+	--blue-transparent-10: rgba(106, 72, 238, 0.1);
+	--blue-transparent-20: rgba(106, 72, 238, 0.2);
+
+	--reel-accent: #6a48ee;
+	--reel-accent-hover: #5a3ad8;
 
 	--red-50: #ffebee;
 	--red-100: #ffadbb;
@@ -123,16 +130,19 @@
 
 	--solid-white: #ffffff;
 
-	/* Accent colors remain mostly the same but adjusted for dark theme */
-	--blue-50: #1a2438;
-	--blue-100: #243352;
-	--blue-200: #2e426b;
-	--blue-300: #4785ff;
-	--blue-400: #5c8fff;
-	--blue-500: #0a84ff;
+	/* Reel accent — dark theme tuning of the indigo/violet system. */
+	--blue-50: #20183a;
+	--blue-100: #2e2152;
+	--blue-200: #3d2c6b;
+	--blue-300: #8b6dff;
+	--blue-400: #9579ff;
+	--blue-500: #7c5cff;
 
-	--blue-transparent-10: rgba(71, 133, 255, 0.1);
-	--blue-transparent-20: rgba(71, 133, 255, 0.2);
+	--blue-transparent-10: rgba(124, 92, 255, 0.1);
+	--blue-transparent-20: rgba(124, 92, 255, 0.2);
+
+	--reel-accent: #8b6dff;
+	--reel-accent-hover: #9579ff;
 
 	--red-50: #2c1a1e;
 	--red-100: #52232c;
