@@ -362,18 +362,7 @@ export default function () {
 													>
 														<IconCapCopy class="size-4" />
 													</TooltipIconButton>
-													<TooltipIconButton
-														class="absolute right-3 bottom-3 z-998"
-														tooltipText={
-															recordingMeta.data?.sharing
-																? "Copy Shareable Link"
-																: "Create Shareable Link"
-														}
-														tooltipPlacement="left"
-														onClick={() => upload.mutate()}
-													>
-														<IconCapUpload class="size-4" />
-													</TooltipIconButton>
+													{/* Cap-cloud "Create Shareable Link" button removed in personal fork. */}
 													<div class="flex absolute inset-0 justify-center items-center">
 														<Button
 															variant="white"

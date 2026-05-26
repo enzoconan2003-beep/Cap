@@ -62,7 +62,27 @@ function declareStore<T extends object>(name: string, defaults?: T) {
 }
 
 export const presetsStore = declareStore<PresetsStore>("presets");
-export const authStore = declareStore<AuthStore>("auth");
+
+// Personal fork: spoof a permanently signed-in + Pro user so every auth/upgrade
+// gate downstream just passes. Real Cap.so token never used; cloud features
+// hidden separately at their UI sites.
+const FAKE_AUTH: AuthStore = {
+	secret: { token: "local-fork", expires: Number.MAX_SAFE_INTEGER },
+	user_id: "local-fork-user",
+	plan: { upgraded: true, manual: true, last_checked: Date.now() },
+	organizations: [],
+	organizations_updated_at: Date.now(),
+};
+const _realAuthStore = declareStore<AuthStore>("auth");
+export const authStore: typeof _realAuthStore = {
+	..._realAuthStore,
+	get: async () => FAKE_AUTH,
+	listen: (fn) => {
+		fn(FAKE_AUTH);
+		return _realAuthStore.listen(() => fn(FAKE_AUTH));
+	},
+};
+
 export const hotkeysStore = declareStore<HotkeysStore>("hotkeys");
 export const generalSettingsStore =
 	declareStore<GeneralSettingsStore>("general_settings");

@@ -92,12 +92,7 @@ export const EXPORT_TO_OPTIONS = [
 		icon: IconCapCopy,
 		description: "Copy to paste anywhere",
 	},
-	{
-		label: "Shareable Link",
-		value: "link",
-		icon: IconCapLink,
-		description: "Share via Cap cloud",
-	},
+	// "Shareable Link" (Cap cloud upload) removed in personal fork.
 ] as const;
 
 type ExportFormat = ExportSettings["format"];

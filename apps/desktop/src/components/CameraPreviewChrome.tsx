@@ -301,6 +301,8 @@ function ResizeCornerHandle(props: {
 		}
 	};
 
+	// Visible bracket marks removed in personal fork — hit area kept for resize.
+	void bracketPositionClass;
 	return (
 		<div
 			data-tauri-drag-region="false"
@@ -310,21 +312,6 @@ function ResizeCornerHandle(props: {
 			)}
 			style={{ "pointer-events": "auto" }}
 			onMouseDown={props.onMouseDown}
-		>
-			<div
-				class={cx(
-					"absolute w-3.5 h-3.5 border-white pointer-events-none",
-					"transition-[opacity,transform,border-color] duration-150 ease-out",
-					"opacity-0 scale-90",
-					props.visible && "opacity-70 scale-100",
-					"group-hover/handle:!opacity-100 group-hover/handle:!scale-110",
-					props.active && "!opacity-100 !scale-110",
-					bracketPositionClass(),
-				)}
-				style={{
-					filter: "drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6))",
-				}}
-			/>
-		</div>
+		/>
 	);
 }
