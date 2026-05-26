@@ -32,7 +32,7 @@ type ResizeCorner = (typeof RESIZE_CORNERS)[number];
 
 export const getDefaultCameraWindowState = (): CameraWindowState => ({
 	size: CAMERA_DEFAULT_SIZE,
-	shape: "round",
+	shape: "full",
 	mirrored: false,
 	backgroundBlur: "off",
 });
@@ -78,10 +78,11 @@ export const cameraToolbarScale = (size: number) => {
 
 export function cameraBorderRadius(state: CameraWindowState) {
 	if (state.shape === "round") return "9999px";
+	if (state.shape === "full") return "1.25rem";
 	const normalized =
 		(clampCameraSize(state.size) - CAMERA_MIN_SIZE) /
 		(CAMERA_MAX_SIZE - CAMERA_MIN_SIZE);
-	const radius = 3 + normalized * 1.5;
+	const radius = 1.5 + normalized * 1;
 	return `${radius}rem`;
 }
 

@@ -877,8 +877,12 @@ function LegacyCameraPreviewPage(props: {
 			<div
 				ref={containerRef}
 				class={cx(
-					"flex flex-col flex-1 relative overflow-hidden pointer-events-none border-none shadow-lg bg-gray-1 text-gray-12",
-					state.shape === "round" ? "rounded-full" : "rounded-3xl",
+					"flex flex-col flex-1 relative overflow-hidden pointer-events-none border-none shadow-2xl bg-gray-1 text-gray-12",
+					state.shape === "round"
+						? "rounded-full"
+						: state.shape === "full"
+							? "rounded-[1.25rem]"
+							: "rounded-3xl",
 				)}
 				data-tauri-drag-region
 			>

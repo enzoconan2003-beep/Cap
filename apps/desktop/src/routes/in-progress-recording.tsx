@@ -608,13 +608,8 @@ function InProgressRecordingInner() {
 	};
 
 	const isMaxRecordingLimitEnabled = () => {
-		// Only enforce the limit on instant mode.
-		// We enforce it on studio mode when exporting.
-		return (
-			optionsQuery.rawOptions.mode === "instant" &&
-			// If the data is loaded and the user is not upgraded
-			authData()?.plan?.upgraded === false
-		);
+		// Free-tier recording limit removed in personal fork — record as long as you want.
+		return false;
 	};
 
 	let aborted = false;

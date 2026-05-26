@@ -39,9 +39,12 @@ function ShareButton() {
 
 			const metadata = await commands.getVideoMetadata(projectPath);
 			const plan = await commands.checkUpgradedAndUpdate();
+			// Free-tier 5-minute share gate removed in personal fork.
+			void metadata;
+			void plan;
 			const canShare = {
-				allowed: plan || metadata.duration < 300,
-				reason: !plan && metadata.duration >= 300 ? "upgrade_required" : null,
+				allowed: true,
+				reason: null as string | null,
 			};
 
 			if (!canShare.allowed) {
