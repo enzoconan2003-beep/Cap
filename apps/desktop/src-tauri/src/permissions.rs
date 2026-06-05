@@ -223,10 +223,20 @@ pub(crate) fn schedule_macos_dock_visibility_sync(app: &tauri::AppHandle) {
 
 #[cfg(target_os = "macos")]
 fn macos_permission_status(permission: &OSPermission, initial_check: bool) -> OSPermissionStatus {
+    // In debug builds, Reel runs as a child of the user's terminal/IDE
+    // (e.g. Claude.app, Terminal.app). TCC attributes camera/mic requests
+    // to the parent's bundle identity, so the AVFoundation check inside
+    // the dev binary returns NotDetermined → the UI gates the toggle and
+    // requestAccess never fires. Force everything to Granted in debug
+    // so the actual capture call triggers the real OS prompt, which the
+    // parent process can answer normally.
     #[cfg(debug_assertions)]
     if matches!(
         permission,
-        OSPermission::ScreenRecording | OSPermission::Accessibility
+        OSPermission::ScreenRecording
+            | OSPermission::Accessibility
+            | OSPermission::Camera
+            | OSPermission::Microphone
     ) {
         return OSPermissionStatus::Granted;
     }
